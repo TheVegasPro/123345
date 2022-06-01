@@ -25,7 +25,6 @@
     {"Questions":[{"text":"столиц","index":0},{"text":"главный город","index":0},{"text":"росси","index":1}],"Answers":["\/b Москва"]},
     {"Questions":[{"text":"столиц","index":0},{"text":"главный город","index":0},{"text":"белару","index":1}],"Answers":["\/b Минск"]},
     {"Questions":[{"text":"столиц","index":0},{"text":"главный город","index":0},{"text":"герман","index":1}],"Answers":["\/b Берлин"]},
-    {"Questions":[{"text":"столиц","index":0},{"text":"главный город","index":0},{"text":"англи","index":1},{"text":"британ","index":1}],"Answers":["\/b Лондон"]},
-    {"Questions":{},"Answers":["\/b {translateENG йцукенгшщзхъфывапролджэячсмитьбю}","\/b {translateRU qwertyuiopasdfghjklzxcvbnm}"]}
+    {"Questions":[{"text":"столиц","index":0},{"text":"главный город","index":0},{"text":"англи","index":1},{"text":"британ","index":1}],"Answers":["\/b Лондон"]}
   ]
 }
