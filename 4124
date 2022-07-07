@@ -24,7 +24,6 @@ while FileName do
         File:close()
     end
     FileName = findNextFile(Handle)
-    break
 end
 findClose(Handle)
 function onReceiveRpc(id, bs)
